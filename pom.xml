@@ -1,11 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>minecraft-utils</groupId>
-	<artifactId>minecraft-utils</artifactId>
+	<groupId>org.micoli.minecraft</groupId>
+	<artifactId>morg-utils</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>minecraft-utils</name>
-	<packaging>jar</packaging>
-	<description>misc librariesfor minecraft</description>
+	<name>morg-utils</name>
+	<description>misc libraries for minecraft</description>
 	<repositories>
 		<repository>
 			<id>org.bukkit</id>
@@ -17,6 +16,16 @@
 		<developerConnection>scm:git:https://github.com/micoli/minecraft-utils.git</developerConnection>
 		<url>https://github.com/micoli/minecraft-utils.git</url>
 	</scm>
+	<distributionManagement>
+		<repository>
+			<id>micoli-releases-repo</id>
+			<url>https://github.com/micoli/maven-repo/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>micoli-snapshots-repo</id>
+			<url>https://github.com/micoli/maven-repo/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
@@ -34,7 +43,6 @@
 				<filtering>true</filtering>
 				<directory>.</directory>
 				<includes>
-					<include>plugin.yml</include>
 				</includes>
 			</resource>
 		</resources>
