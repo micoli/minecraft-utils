@@ -2,6 +2,7 @@ package org.micoli.minecraft.utils;
 
 import java.util.EnumSet;
 import java.util.Set;
+
 import org.bukkit.ChatColor;
 
 public class ChatFormater {
