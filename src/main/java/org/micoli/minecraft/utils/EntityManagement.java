@@ -12,6 +12,7 @@ import org.bukkit.util.BlockIterator;
 
 public class EntityManagement {
 	/*
+	 *
 	 * thanks to http://forums.bukkit.org/threads/solved-get-the-entity-a-player-is-looking-at.40592/
 	 *
 	 * */
