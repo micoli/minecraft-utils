@@ -10,8 +10,7 @@ public class Json {
 	public static void exportObjectToJson(String filename,Object object){
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		FileWriter writer;
-		
-				try {
+		try {
 			writer = new FileWriter(filename);
 			writer.write(gson.toJson(object));
 			writer.close();

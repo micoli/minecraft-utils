@@ -2,13 +2,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.micoli.minecraft</groupId>
 	<artifactId>morg-utils</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>morg-utils</name>
 	<description>misc libraries for minecraft</description>
 	<repositories>
 		<repository>
 			<id>org.bukkit</id>
 			<url>http://repo.bukkit.org/content/groups</url>
+		</repository>
+		<repository>
+			<id>lennardf1989-repo</id>
+			<url>http://github.lennardf1989.com/repository/</url>
 		</repository>
 	</repositories>
 	<scm>
@@ -27,6 +31,16 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<dependencies>
+		<dependency>
+			<groupId>com.lennardf1989</groupId>
+			<artifactId>bukkitex</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>net.milkbowl.vault</groupId>
+			<artifactId>Vault</artifactId>
+			<version>1.2.14-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
