@@ -22,52 +22,120 @@ import org.micoli.minecraft.utils.ServerLogger;
 import com.avaje.ebean.EbeanServer;
 import com.lennardf1989.bukkitex.MyDatabase;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class QDBukkitPlugin.
+ */
 public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
+	
+	/** The logger. */
 	protected static Logger logger = Logger.getLogger("Minecraft");
+	
+	/** The instance. */
 	protected static QDBukkitPlugin instance;
+	
+	/** The command string. */
 	protected static String commandString = "QDBukkitPlugin";
+	
+	/** The comments. */
 	protected static boolean comments = true;
+	
+	/** The last msg. */
 	protected static String lastMsg = "";
+	
+	/** The pdf file. */
 	public PluginDescriptionFile pdfFile;
+	
+	/** The pm. */
 	public PluginManager pm;
 
+	/** The vault permission. */
 	public static Permission vaultPermission = null;
+	
+	/** The vault economy. */
 	public static Economy vaultEconomy = null;
+	
+	/** The vault chat. */
 	public static Chat vaultChat = null;
+	
+	/** The database. */
 	protected static MyDatabase database;
 
 	/**
+	 * Gets the single instance of QDBukkitPlugin.
+	 *
 	 * @return the instance
 	 */
 	public static QDBukkitPlugin getInstance() {
 		return instance;
 	}
 
+	/**
+	 * Gets the command string.
+	 *
+	 * @return the command string
+	 */
 	public static String getCommandString() {
 		return commandString;
 	}
 
+	/**
+	 * Sets the comments.
+	 *
+	 * @param player the player
+	 * @param active the active
+	 */
 	public static void setComments(Player player, boolean active) {
 		comments = active;
 		player.sendMessage(ChatFormater.format("{ChatColor.RED} %s", (active ? "comments activated" : "comments desactived")));
 	}
 
+	/**
+	 * Gets the comments.
+	 *
+	 * @return the comments
+	 */
 	public static boolean getComments() {
 		return comments;
 	}
 
+	/**
+	 * Log.
+	 *
+	 * @param str the str
+	 */
 	public static void log(String str) {
-		logger.info(str);
+		ServerLogger.log(str);
 	}
 
+	/**
+	 * Send comments.
+	 *
+	 * @param player the player
+	 * @param text the text
+	 * @param args the args
+	 */
 	public static void sendComments(Player player, String text,Object... args) {
 		sendComments(player, ChatFormater.format(text,args));
 	}
 	
+	/**
+	 * Send comments.
+	 *
+	 * @param player the player
+	 * @param text the text
+	 */
 	public static void sendComments(Player player, String text) {
 		sendComments(player, text,false);
 	}
 
+	/**
+	 * Send comments.
+	 *
+	 * @param player the player
+	 * @param text the text
+	 * @param global the global
+	 */
 	public static void sendComments(Player player, String text, boolean global) {
 		if (getComments()) {
 			if (!QDBukkitPlugin.lastMsg.equalsIgnoreCase(text)) {
@@ -81,11 +149,17 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.bukkit.plugin.java.JavaPlugin#onDisable()
+	 */
 	public void onDisable() {
 		PluginDescriptionFile pdfFile = getDescription();
 		log(ChatFormater.format("%s version disabled", pdfFile.getName(), pdfFile.getVersion()));
 	}
 
+	/* (non-Javadoc)
+	 * @see org.bukkit.plugin.java.JavaPlugin#onEnable()
+	 */
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -101,6 +175,9 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 		initializeDatabase();
 	}
 
+	/**
+	 * Load configuration.
+	 */
 	protected void loadConfiguration() {
 		FileConfiguration config = getConfig();
 		config.set("database.driver", config.getString("database.driver", "org.sqlite.JDBC"));
@@ -113,20 +190,36 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 		saveConfig();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.bukkit.plugin.java.JavaPlugin#getDatabase()
+	 */
 	@Override
 	public EbeanServer getDatabase() {
 		return database.getDatabase();
 	}
 
+	/**
+	 * Gets the static database.
+	 *
+	 * @return the static database
+	 */
 	public static EbeanServer getStaticDatabase() {
 		return database.getDatabase();
 	}
 
+	/**
+	 * Gets the database orm classes.
+	 *
+	 * @return the database orm classes
+	 */
 	protected java.util.List<Class<?>> getDatabaseORMClasses() {
 		List<Class<?>> list = new ArrayList<Class<?>>();
 		return list;
 	};
 
+	/**
+	 * Initialize database.
+	 */
 	protected void initializeDatabase() {
 		FileConfiguration config = getConfig();
 
@@ -142,6 +235,11 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 		saveConfig();
 	}
 
+	/**
+	 * Setup permissions.
+	 *
+	 * @return true, if successful
+	 */
 	protected boolean setupPermissions() {
 		RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
 		if (permissionProvider != null) {
@@ -150,6 +248,11 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 		return (vaultPermission != null);
 	}
 
+	/**
+	 * Setup chat.
+	 *
+	 * @return true, if successful
+	 */
 	protected boolean setupChat() {
 		RegisteredServiceProvider<Chat> chatProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
 		if (chatProvider != null) {
@@ -159,6 +262,11 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 		return (vaultChat != null);
 	}
 
+	/**
+	 * Setup economy.
+	 *
+	 * @return true, if successful
+	 */
 	protected boolean setupEconomy() {
 		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
 		if (economyProvider != null) {
@@ -168,6 +276,9 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 		return (vaultEconomy != null);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	public void actionPerformed(ActionEvent event) {
 	}
 }

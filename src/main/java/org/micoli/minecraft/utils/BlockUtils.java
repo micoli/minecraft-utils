@@ -7,7 +7,12 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BlockUtils.
+ */
 public class BlockUtils {
+	
 	/**
 	 * Draw line on top of blocks.
 	 *
@@ -15,6 +20,7 @@ public class BlockUtils {
 	 * @param location2 the location2
 	 * @param material the material
 	 * Algorithm of the line available at : http://tech-algorithm.com/articles/drawing-line-using-bresenham-algorithm/
+	 * @param listBlock the list block
 	 */
 	public static void drawLineOnTop(Location location1, Location location2, Material material,List<Block> listBlock) {
 		//ServerLogger.log("draw line from %f,%f=>%f,%f %s", location1.getX(), location1.getZ(), location2.getX(), location2.getZ(), material.toString());
@@ -68,6 +74,13 @@ public class BlockUtils {
 		}
 	}
 	
+	/**
+	 * Sets the material on top.
+	 *
+	 * @param location the location
+	 * @param material the material
+	 * @return the block
+	 */
 	public static Block setMaterialOnTop(Location location, Material material) {
 		Location dstLocation = getTopPositionAtPos(location);
 		location.getWorld().getBlockAt(dstLocation).setType(material);
@@ -75,6 +88,12 @@ public class BlockUtils {
 		return location.getWorld().getBlockAt(dstLocation);
 	}
 	
+	/**
+	 * Gets the top position at pos.
+	 *
+	 * @param location the location
+	 * @return the top position at pos
+	 */
 	public static Location getTopPositionAtPos(Location location) {
 		World world = location.getWorld();
 		location.setY(world.getMaxHeight() - 1);

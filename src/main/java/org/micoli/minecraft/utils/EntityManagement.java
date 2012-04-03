@@ -10,6 +10,10 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.BlockIterator;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EntityManagement.
+ */
 public class EntityManagement {
 	/*
 	 *
@@ -18,6 +22,12 @@ public class EntityManagement {
 	 *
 	 *
 	 * */
+	/**
+	 * Gets the target.
+	 *
+	 * @param player the player
+	 * @return the target
+	 */
 	public static Entity getTarget(Player player) {
 		List<Entity> nearbyE = player.getNearbyEntities(20, 20, 20);
 		ArrayList<LivingEntity> livingE = new ArrayList<LivingEntity>();
