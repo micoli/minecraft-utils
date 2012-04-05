@@ -29,4 +29,20 @@ public class Json {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Export object to json.
+	 *
+	 * @param object the object
+	 */
+	public static String exportObjectToJson(Object object){
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String writer;
+		try {
+			writer = gson.toJson(object);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+		return writer;
+	}
 }
