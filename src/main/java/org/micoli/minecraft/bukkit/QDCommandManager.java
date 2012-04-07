@@ -78,18 +78,30 @@ public class QDCommandManager implements CommandExecutor {
 					String subCommand = args[0].toLowerCase();
 					ServerLogger.log("Command %s", args[0]);
 					if (listAliases.containsKey(subCommand)) {
-						
-						if (listCommand.get(subCommand).senderType() == QDCommand.SenderType.CONSOLE && senderType != SenderType.CONSOLE) {
+						QDCommand currentCommand = listCommand.get(subCommand);
+						Method currentMethod = listAliases.get(subCommand);
+						if (currentCommand.senderType() == QDCommand.SenderType.CONSOLE && senderType != SenderType.CONSOLE) {
 							commandFeedBack(senderType,sender,"requires you to be on the console");
 							return false;
 						}
 						
-						if (listCommand.get(subCommand).senderType() == QDCommand.SenderType.PLAYER && senderType != SenderType.PLAYER) {
+						if (currentCommand.senderType() == QDCommand.SenderType.PLAYER && senderType != SenderType.PLAYER) {
 							commandFeedBack(senderType,sender,"requires you to be a player");
 						}
-						
+
+						if (currentCommand.senderType() == QDCommand.SenderType.PLAYER && senderType != SenderType.CONSOLE) {
+							if(currentCommand.permissions().length>0 && !((Player)sender).isOp()){
+								for(String permission: currentCommand.permissions()){
+									ServerLogger.log(permission);
+									if (!QDBukkitPlugin.vaultPermission.has(((Player)sender), permission)){
+										commandFeedBack(senderType,sender," you need permissions "+permission);
+										return false;
+									}
+								}
+							}
+						}
 						try {
-							listAliases.get(subCommand).invoke(plugin, sender, command, label, args);
+							currentMethod.invoke(plugin, sender, command, label, args);
 							return true;
 						} catch (Exception e) {
 							commandFeedBack(senderType,sender,"{ChatColor.RED} %s", e.getMessage());
