@@ -14,4 +14,6 @@ public @interface QDCommand {
 	public String description() default  "";
 	public String help() default "";
 	public SenderType senderType() default SenderType.PLAYER;
+	public String[] permissions() ;
+	
 }
