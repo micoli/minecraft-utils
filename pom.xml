@@ -14,10 +14,6 @@
 			<id>org.bukkit</id>
 			<url>http://repo.bukkit.org/content/repositories/snapshots/</url>
 		</repository>
-		<repository>
-			<id>lennardf1989-repo</id>
-			<url>http://github.lennardf1989.com/repository/</url>
-		</repository>
 	</repositories>
 	<scm>
 		<connection>scm:git:https://github.com/micoli/minecraft-utils.git</connection>
