@@ -1,5 +1,6 @@
 package org.micoli.minecraft.bukkit;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
@@ -47,13 +48,13 @@ public class QDCommandManager implements CommandExecutor {
 		plugin.getCommand(QDBukkitPlugin.getCommandString()).setExecutor(this);
 		// ServerLogger.log("----------------------------");
 	}
-	
-	public void commandFeedBack(SenderType senderType,CommandSender sender, String str,Object... args ){
-		if(senderType == SenderType.CONSOLE){
-			ServerLogger.log(str,args);
+
+	public void commandFeedBack(SenderType senderType, CommandSender sender, String str, Object... args) {
+		if (senderType == SenderType.CONSOLE) {
+			ServerLogger.log(str, args);
 		}
-		if(senderType == SenderType.PLAYER){
-			((Player) sender).sendMessage(ChatFormater.format(str,args));
+		if (senderType == SenderType.PLAYER) {
+			((Player) sender).sendMessage(ChatFormater.format(str, args));
 		}
 	}
 
@@ -81,20 +82,20 @@ public class QDCommandManager implements CommandExecutor {
 						QDCommand currentCommand = listCommand.get(subCommand);
 						Method currentMethod = listAliases.get(subCommand);
 						if (currentCommand.senderType() == QDCommand.SenderType.CONSOLE && senderType != SenderType.CONSOLE) {
-							commandFeedBack(senderType,sender,"requires you to be on the console");
+							commandFeedBack(senderType, sender, "requires you to be on the console");
 							return false;
 						}
-						
+
 						if (currentCommand.senderType() == QDCommand.SenderType.PLAYER && senderType != SenderType.PLAYER) {
-							commandFeedBack(senderType,sender,"requires you to be a player");
+							commandFeedBack(senderType, sender, "requires you to be a player");
 						}
 
 						if (currentCommand.senderType() == QDCommand.SenderType.PLAYER && senderType != SenderType.CONSOLE) {
-							if(currentCommand.permissions().length>0 && !((Player)sender).isOp()){
-								for(String permission: currentCommand.permissions()){
+							if (currentCommand.permissions().length > 0 && !((Player) sender).isOp()) {
+								for (String permission : currentCommand.permissions()) {
 									ServerLogger.log(permission);
-									if (!QDBukkitPlugin.vaultPermission.has(((Player)sender), permission)){
-										commandFeedBack(senderType,sender," you need permissions "+permission);
+									if (!QDBukkitPlugin.vaultPermission.has(((Player) sender), permission)) {
+										commandFeedBack(senderType, sender, "You need permissions " + permission);
 										return false;
 									}
 								}
@@ -103,8 +104,10 @@ public class QDCommandManager implements CommandExecutor {
 						try {
 							currentMethod.invoke(plugin, sender, command, label, args);
 							return true;
+						} catch (InvocationTargetException e) {
+							commandFeedBack(senderType, sender, "{ChatColor.RED} %s", e.getCause().getMessage());
 						} catch (Exception e) {
-							commandFeedBack(senderType,sender,"{ChatColor.RED} %s", e.getMessage());
+							commandFeedBack(senderType, sender, "{ChatColor.RED} %s", e.getMessage());
 							e.printStackTrace();
 							throw e;
 						}
@@ -112,7 +115,7 @@ public class QDCommandManager implements CommandExecutor {
 						return this.onCommandWithoutAnnotation(sender, command, label, args);
 					}
 				} else {
-					commandFeedBack(senderType,sender,"{ChatColor.RED} Need more arguments");
+					commandFeedBack(senderType, sender, "{ChatColor.RED} Need more arguments");
 				}
 			}
 			return false;

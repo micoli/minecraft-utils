@@ -60,6 +60,8 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	
 	/** The database. */
 	protected static MyDatabase database;
+	
+	protected FileConfiguration configFile;
 
 	/**
 	 * Gets the single instance of QDBukkitPlugin.
@@ -179,14 +181,14 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 * Load configuration.
 	 */
 	protected void loadConfiguration() {
-		FileConfiguration config = getConfig();
-		config.set("database.driver", config.getString("database.driver", "org.sqlite.JDBC"));
-		config.set("database.url", config.getString("database.url", "jdbc:sqlite:{DIR}{NAME}.db"));
-		config.set("database.username", config.getString("database.username", "root"));
-		config.set("database.password", config.getString("database.password", ""));
-		config.set("database.isolation", config.getString("database.isolation", "SERIALIZABLE"));
-		config.set("database.logging", config.getBoolean("database.logging", false));
-		config.set("database.rebuild", config.getBoolean("database.rebuild", true));
+		configFile = getConfig();
+		configFile.set("database.driver", configFile.getString("database.driver", "org.sqlite.JDBC"));
+		configFile.set("database.url", configFile.getString("database.url", "jdbc:sqlite:{DIR}{NAME}.db"));
+		configFile.set("database.username", configFile.getString("database.username", "root"));
+		configFile.set("database.password", configFile.getString("database.password", ""));
+		configFile.set("database.isolation", configFile.getString("database.isolation", "SERIALIZABLE"));
+		configFile.set("database.logging", configFile.getBoolean("database.logging", false));
+		configFile.set("database.rebuild", configFile.getBoolean("database.rebuild", true));
 		saveConfig();
 	}
 
