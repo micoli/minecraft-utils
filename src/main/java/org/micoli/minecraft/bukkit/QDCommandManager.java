@@ -3,6 +3,7 @@ package org.micoli.minecraft.bukkit;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -47,6 +48,18 @@ public class QDCommandManager implements CommandExecutor {
 		}
 		plugin.getCommand(QDBukkitPlugin.getCommandString()).setExecutor(this);
 		// ServerLogger.log("----------------------------");
+	}
+	
+	protected boolean showHelp(SenderType senderType, CommandSender sender){
+		Iterator<String> annotationIterator = listCommand.keySet().iterator();
+		while (annotationIterator.hasNext()) {
+			QDCommand cmd = listCommand.get(annotationIterator.next());
+			commandFeedBack(senderType, sender, "{ChatColor.RED}/%s {ChatColor.GREEN}%s",QDBukkitPlugin.getCommandString() ,cmd.aliases());
+			if(!cmd.description().equalsIgnoreCase("")){
+				commandFeedBack(senderType, sender, "{ChatColor.GREEN}    %s {ChatColor.BLACK} ", cmd.description());
+			}
+		}
+		return true;
 	}
 
 	public void commandFeedBack(SenderType senderType, CommandSender sender, String str, Object... args) {
@@ -115,7 +128,7 @@ public class QDCommandManager implements CommandExecutor {
 						return this.onCommandWithoutAnnotation(sender, command, label, args);
 					}
 				} else {
-					commandFeedBack(senderType, sender, "{ChatColor.RED} Need more arguments");
+					showHelp(senderType, sender);
 				}
 			}
 			return false;
