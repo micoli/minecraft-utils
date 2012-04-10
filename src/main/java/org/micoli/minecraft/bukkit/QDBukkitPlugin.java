@@ -61,6 +61,7 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	/** The database. */
 	protected static MyDatabase database;
 	
+	/** The config file. */
 	protected FileConfiguration configFile;
 
 	/**

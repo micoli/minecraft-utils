@@ -26,4 +26,20 @@ public class ChatFormater {
 		}
 		return result;
 	}
+
+	/**
+	 * Format clean.
+	 *
+	 * @param str the str
+	 * @param args the args
+	 * @return the string
+	 */
+	public static String formatClean(String str, Object[] args) {
+		String result = String.format(str, args);
+		Set<ChatColor> allChatColors= EnumSet.allOf(ChatColor.class);
+		for(ChatColor col : allChatColors){
+			result = result.replaceAll("\\{ChatColor\\."+col.name()+"\\}", "");
+		}
+		return result;
+	}
 }

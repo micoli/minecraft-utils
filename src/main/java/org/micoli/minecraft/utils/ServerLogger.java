@@ -32,7 +32,7 @@ public class ServerLogger {
 	 * @param str the str
 	 */
 	public static void log(String str) {
-		logger.info("["+prefix+"]"+str);
+		logger.info("["+prefix+"] "+str);
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class ServerLogger {
 	 * @param args the args
 	 */
 	public static void log(String str,Object... args ) {
-		logger.info("["+prefix+"]"+ChatFormater.format(str, args));
+		logger.info("["+prefix+"] "+ChatFormater.formatClean(str, args));
 	}
 	
 	/**

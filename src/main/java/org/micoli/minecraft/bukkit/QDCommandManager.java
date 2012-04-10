@@ -13,6 +13,7 @@ import org.micoli.minecraft.bukkit.QDCommand.SenderType;
 import org.micoli.minecraft.utils.ChatFormater;
 import org.micoli.minecraft.utils.ServerLogger;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class QDCommandManager.
  */
@@ -20,14 +21,18 @@ public class QDCommandManager implements CommandExecutor {
 
 	/** The plugin. */
 	private QDBukkitPlugin plugin;
+	
+	/** The list aliases. */
 	private HashMap<String, Method> listAliases = new HashMap<String, Method>();
+	
+	/** The list command. */
 	private HashMap<String, QDCommand> listCommand = new HashMap<String, QDCommand>();
 
 	/**
 	 * Instantiates a new qD command manager.
-	 * 
-	 * @param plugin
-	 *            the plugin
+	 *
+	 * @param plugin the plugin
+	 * @param classes the classes
 	 */
 	@SuppressWarnings("rawtypes")
 	public QDCommandManager(QDBukkitPlugin plugin, Class[] classes) {
@@ -50,18 +55,58 @@ public class QDCommandManager implements CommandExecutor {
 		// ServerLogger.log("----------------------------");
 	}
 	
-	protected boolean showHelp(SenderType senderType, CommandSender sender){
+	/**
+	 * Show help.
+	 *
+	 * @param senderType the sender type
+	 * @param sender the sender
+	 * @param toLog 
+	 * @return true, if successful
+	 */
+	protected boolean showHelp(SenderType senderType, CommandSender sender, boolean toLog){
 		Iterator<String> annotationIterator = listCommand.keySet().iterator();
 		while (annotationIterator.hasNext()) {
 			QDCommand cmd = listCommand.get(annotationIterator.next());
-			commandFeedBack(senderType, sender, "{ChatColor.RED}/%s {ChatColor.GREEN}%s",QDBukkitPlugin.getCommandString() ,cmd.aliases());
-			if(!cmd.description().equalsIgnoreCase("")){
-				commandFeedBack(senderType, sender, "{ChatColor.GREEN}    %s {ChatColor.BLACK} ", cmd.description());
+			String errorStr = isCommandNotAllowed(sender, senderType, cmd);
+			if(!errorStr.equalsIgnoreCase("")){
+				ServerLogger.log("not allowed "+cmd.aliases()+" "+errorStr);
 			}
+			commandUsageFeedBack(toLog?SenderType.CONSOLE:senderType, sender, cmd);
 		}
 		return true;
 	}
+	
+	/**
+	 * Command usage feed back.
+	 *
+	 * @param senderType the sender type
+	 * @param sender the sender
+	 * @param command the command
+	 */
+	public void commandUsageFeedBack(SenderType senderType, CommandSender sender, QDCommand command) {
+		commandUsageFeedBack(senderType, sender, command,"");
+	}
 
+	/**
+	 * Command usage feed back.
+	 *
+	 * @param senderType the sender type
+	 * @param sender the sender
+	 * @param command the command
+	 * @param complement the complement
+	 */
+	public void commandUsageFeedBack(SenderType senderType, CommandSender sender, QDCommand command,String complement) {
+		commandFeedBack(senderType, sender, "{ChatColor.RED}/%s {ChatColor.GREEN}%s {ChatColor.BLUE}%s {ChatColor.RED}\n{ChatColor.GREEN}%s %s", QDBukkitPlugin.getCommandString(), command.aliases(), command.usage(),command.description(), complement);
+	}
+
+	/**
+	 * Command feed back.
+	 *
+	 * @param senderType the sender type
+	 * @param sender the sender
+	 * @param str the str
+	 * @param args the args
+	 */
 	public void commandFeedBack(SenderType senderType, CommandSender sender, String str, Object... args) {
 		if (senderType == SenderType.CONSOLE) {
 			ServerLogger.log(str, args);
@@ -69,6 +114,37 @@ public class QDCommandManager implements CommandExecutor {
 		if (senderType == SenderType.PLAYER) {
 			((Player) sender).sendMessage(ChatFormater.format(str, args));
 		}
+	}
+	
+	
+	/**
+	 * Checks if is command not allowed.
+	 *
+	 * @param sender the sender
+	 * @param senderType the sender type
+	 * @param currentCommand the current command
+	 * @return the string
+	 */
+	public String isCommandNotAllowed(CommandSender sender,SenderType senderType,QDCommand currentCommand){
+		if (currentCommand.senderType() == QDCommand.SenderType.CONSOLE && senderType != SenderType.CONSOLE) {
+			return  "requires you to be on the console";
+		}
+
+		if (currentCommand.senderType() == QDCommand.SenderType.PLAYER && senderType != SenderType.PLAYER) {
+			return "requires you to be a player";
+		}
+
+		if (currentCommand.senderType() == QDCommand.SenderType.PLAYER && senderType != SenderType.CONSOLE) {
+			if (currentCommand.permissions().length > 0 && !((Player) sender).isOp()) {
+				for (String permission : currentCommand.permissions()) {
+					ServerLogger.log(permission);
+					if (!QDBukkitPlugin.vaultPermission.has(((Player) sender), permission)) {
+						return "You need permissions " + permission;
+					}
+				}
+			}
+		}
+		return "";
 	}
 
 	/*
@@ -91,34 +167,27 @@ public class QDCommandManager implements CommandExecutor {
 				if (args.length > 0) {
 					String subCommand = args[0].toLowerCase();
 					ServerLogger.log("Command %s", args[0]);
+					if(subCommand.equalsIgnoreCase("helplog")){
+						showHelp(senderType, sender,true);
+						return true;
+					}
 					if (listAliases.containsKey(subCommand)) {
 						QDCommand currentCommand = listCommand.get(subCommand);
 						Method currentMethod = listAliases.get(subCommand);
-						if (currentCommand.senderType() == QDCommand.SenderType.CONSOLE && senderType != SenderType.CONSOLE) {
-							commandFeedBack(senderType, sender, "requires you to be on the console");
+						String errorStr = isCommandNotAllowed(sender, senderType,currentCommand);
+						if(!errorStr.equalsIgnoreCase("")){
+							commandFeedBack(senderType, sender, errorStr);
 							return false;
-						}
-
-						if (currentCommand.senderType() == QDCommand.SenderType.PLAYER && senderType != SenderType.PLAYER) {
-							commandFeedBack(senderType, sender, "requires you to be a player");
-						}
-
-						if (currentCommand.senderType() == QDCommand.SenderType.PLAYER && senderType != SenderType.CONSOLE) {
-							if (currentCommand.permissions().length > 0 && !((Player) sender).isOp()) {
-								for (String permission : currentCommand.permissions()) {
-									ServerLogger.log(permission);
-									if (!QDBukkitPlugin.vaultPermission.has(((Player) sender), permission)) {
-										commandFeedBack(senderType, sender, "You need permissions " + permission);
-										return false;
-									}
-								}
-							}
 						}
 						try {
 							currentMethod.invoke(plugin, sender, command, label, args);
 							return true;
 						} catch (InvocationTargetException e) {
-							commandFeedBack(senderType, sender, "{ChatColor.RED} %s", e.getCause().getMessage());
+							if(e.getCause() instanceof QDCommandUsageException){
+								commandUsageFeedBack(senderType, sender, currentCommand, e.getCause().getMessage());
+							}else{
+								commandFeedBack(senderType, sender, "{ChatColor.RED} %s", e.getCause().getMessage());
+							}
 						} catch (Exception e) {
 							commandFeedBack(senderType, sender, "{ChatColor.RED} %s", e.getMessage());
 							e.printStackTrace();
@@ -128,7 +197,7 @@ public class QDCommandManager implements CommandExecutor {
 						return this.onCommandWithoutAnnotation(sender, command, label, args);
 					}
 				} else {
-					showHelp(senderType, sender);
+					showHelp(senderType, sender,false);
 				}
 			}
 			return false;
@@ -139,6 +208,15 @@ public class QDCommandManager implements CommandExecutor {
 		return false;
 	}
 
+	/**
+	 * On command without annotation.
+	 *
+	 * @param sender the sender
+	 * @param command the command
+	 * @param label the label
+	 * @param args the args
+	 * @return true, if successful
+	 */
 	private boolean onCommandWithoutAnnotation(CommandSender sender, Command command, String label, String[] args) {
 		((Player) sender).sendMessage(ChatFormater.format("{ChatColor.RED} command unknown"));
 		return false;

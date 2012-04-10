@@ -7,10 +7,16 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PluginEnvironment.
+ */
 public class PluginEnvironment {
+	
 	/**
 	 * Gets the world guard.
-	 * 
+	 *
+	 * @param server the server
 	 * @return the world guard
 	 */
 	static public WorldGuardPlugin getWorldGuard(Server server) {
@@ -27,7 +33,8 @@ public class PluginEnvironment {
 
 	/**
 	 * Gets the world edit.
-	 * 
+	 *
+	 * @param server the server
 	 * @return the world edit
 	 */
 	static public WorldEditPlugin getWorldEdit(Server server) {

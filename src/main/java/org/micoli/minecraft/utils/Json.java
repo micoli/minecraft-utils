@@ -29,10 +29,12 @@ public class Json {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * Export object to json.
 	 *
 	 * @param object the object
+	 * @return the string
 	 */
 	public static String exportObjectToJson(Object object){
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
