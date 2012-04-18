@@ -64,6 +64,9 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	/** The config file. */
 	protected FileConfiguration configFile;
 
+	/** The config file. */
+	protected boolean withDatabase =true;
+
 	/**
 	 * Gets the single instance of QDBukkitPlugin.
 	 *
@@ -175,7 +178,9 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 		setupChat();
 		setupEconomy();
 		loadConfiguration();
-		initializeDatabase();
+		if(withDatabase){
+			initializeDatabase();
+		}
 	}
 
 	/**

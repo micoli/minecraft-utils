@@ -121,6 +121,7 @@
 							<artifactSet>
 								<includes>
 									<include>com.google.code.gson:gson:jar:*</include>
+									<include>com.lennardf1989:bukkitex:jar:*</include>
 								</includes>
 							</artifactSet>
 							<filters>
