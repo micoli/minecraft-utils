@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.micoli.minecraft.bukkit.QDCommand.SenderType;
 import org.micoli.minecraft.utils.ChatFormater;
-import org.micoli.minecraft.utils.ServerLogger;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -51,7 +50,7 @@ public class QDCommandManager implements CommandExecutor {
 				}
 			}
 		}
-		plugin.getCommand(QDBukkitPlugin.getCommandString()).setExecutor(this);
+		plugin.getCommand(plugin.getCommandString()).setExecutor(this);
 		// ServerLogger.log("----------------------------");
 	}
 	
@@ -69,7 +68,7 @@ public class QDCommandManager implements CommandExecutor {
 			QDCommand cmd = listCommand.get(annotationIterator.next());
 			String errorStr = isCommandNotAllowed(sender, senderType, cmd);
 			if(!errorStr.equalsIgnoreCase("")){
-				ServerLogger.log("not allowed "+cmd.aliases()+" "+errorStr);
+				plugin.logger.log("not allowed "+cmd.aliases()+" "+errorStr);
 			}
 			commandUsageFeedBack(toLog?SenderType.CONSOLE:senderType, sender, cmd);
 		}
@@ -96,7 +95,7 @@ public class QDCommandManager implements CommandExecutor {
 	 * @param complement the complement
 	 */
 	public void commandUsageFeedBack(SenderType senderType, CommandSender sender, QDCommand command,String complement) {
-		commandFeedBack(senderType, sender, "{ChatColor.RED}/%s {ChatColor.GREEN}%s {ChatColor.BLUE}%s {ChatColor.RED}\n{ChatColor.GREEN}%s %s", QDBukkitPlugin.getCommandString(), command.aliases(), command.usage(),command.description(), complement);
+		commandFeedBack(senderType, sender, "{ChatColor.RED}/%s {ChatColor.GREEN}%s {ChatColor.BLUE}%s {ChatColor.RED}\n{ChatColor.GREEN}%s %s", plugin.getCommandString(), command.aliases(), command.usage(),command.description(), complement);
 	}
 
 	/**
@@ -109,7 +108,7 @@ public class QDCommandManager implements CommandExecutor {
 	 */
 	public void commandFeedBack(SenderType senderType, CommandSender sender, String str, Object... args) {
 		if (senderType == SenderType.CONSOLE) {
-			ServerLogger.log(str, args);
+			plugin.logger.log(str, args);
 		}
 		if (senderType == SenderType.PLAYER) {
 			((Player) sender).sendMessage(ChatFormater.format(str, args));
@@ -137,8 +136,8 @@ public class QDCommandManager implements CommandExecutor {
 		if (currentCommand.senderType() == QDCommand.SenderType.PLAYER && senderType != SenderType.CONSOLE) {
 			if (currentCommand.permissions().length > 0 && !((Player) sender).isOp()) {
 				for (String permission : currentCommand.permissions()) {
-					ServerLogger.log(permission);
-					if (!QDBukkitPlugin.vaultPermission.has(((Player) sender), permission)) {
+					plugin.logger.log(permission);
+					if (!plugin.vaultPermission.has(((Player) sender), permission)) {
 						return "You need permissions " + permission;
 					}
 				}
@@ -163,10 +162,10 @@ public class QDCommandManager implements CommandExecutor {
 			senderType = SenderType.CONSOLE;
 		}
 		try {
-			if (command.getName().equalsIgnoreCase(QDBukkitPlugin.getCommandString())) {
+			if (command.getName().equalsIgnoreCase(plugin.getCommandString())) {
 				if (args.length > 0) {
 					String subCommand = args[0].toLowerCase();
-					ServerLogger.log("Command %s", args[0]);
+					plugin.logger.log("Command %s", args[0]);
 					if(subCommand.equalsIgnoreCase("helplog")){
 						showHelp(senderType, sender,true);
 						return true;
@@ -202,7 +201,7 @@ public class QDCommandManager implements CommandExecutor {
 			}
 			return false;
 		} catch (Exception ex) {
-			ServerLogger.log("Command failure: %s", ex.getMessage());
+			plugin.logger.log("Command failure: %s", ex.getMessage());
 			ex.printStackTrace();
 		}
 		return false;

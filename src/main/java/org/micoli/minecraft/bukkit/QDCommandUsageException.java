@@ -22,7 +22,7 @@ public class QDCommandUsageException extends QDCommandException {
 	 *
 	 * @param message the message
 	 */
-	public QDCommandUsageException(String message) {
+	public QDCommandUsageException (String message) {
 		super(message);
 	}
 

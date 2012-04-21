@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
@@ -29,19 +28,19 @@ import com.lennardf1989.bukkitex.MyDatabase;
 public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	
 	/** The logger. */
-	protected static Logger logger = Logger.getLogger("Minecraft");
+	public ServerLogger logger = new ServerLogger();
 	
 	/** The instance. */
 	protected static QDBukkitPlugin instance;
 	
 	/** The command string. */
-	protected static String commandString = "QDBukkitPlugin";
+	protected String commandString = "QDBukkitPlugin";
 	
 	/** The comments. */
-	protected static boolean comments = true;
+	protected boolean comments = true;
 	
 	/** The last msg. */
-	protected static String lastMsg = "";
+	protected String lastMsg = "";
 	
 	/** The pdf file. */
 	public PluginDescriptionFile pdfFile;
@@ -50,22 +49,25 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	public PluginManager pm;
 
 	/** The vault permission. */
-	public static Permission vaultPermission = null;
+	public Permission vaultPermission = null;
 	
 	/** The vault economy. */
-	public static Economy vaultEconomy = null;
+	public Economy vaultEconomy = null;
 	
 	/** The vault chat. */
-	public static Chat vaultChat = null;
+	public Chat vaultChat = null;
 	
 	/** The database. */
-	protected static MyDatabase database;
+	protected MyDatabase database;
 	
 	/** The config file. */
 	protected FileConfiguration configFile;
 
 	/** The config file. */
-	protected boolean withDatabase =true;
+	protected boolean withDatabase =false;
+
+	/** The executor. */
+	protected QDCommandManager executor;
 
 	/**
 	 * Gets the single instance of QDBukkitPlugin.
@@ -81,7 +83,7 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 *
 	 * @return the command string
 	 */
-	public static String getCommandString() {
+	public String getCommandString() {
 		return commandString;
 	}
 
@@ -91,7 +93,7 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 * @param player the player
 	 * @param active the active
 	 */
-	public static void setComments(Player player, boolean active) {
+	public void setComments(Player player, boolean active) {
 		comments = active;
 		player.sendMessage(ChatFormater.format("{ChatColor.RED} %s", (active ? "comments activated" : "comments desactived")));
 	}
@@ -101,17 +103,8 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 *
 	 * @return the comments
 	 */
-	public static boolean getComments() {
+	public boolean getComments() {
 		return comments;
-	}
-
-	/**
-	 * Log.
-	 *
-	 * @param str the str
-	 */
-	public static void log(String str) {
-		ServerLogger.log(str);
 	}
 
 	/**
@@ -121,7 +114,7 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 * @param text the text
 	 * @param args the args
 	 */
-	public static void sendComments(Player player, String text,Object... args) {
+	public void sendComments(Player player, String text,Object... args) {
 		sendComments(player, ChatFormater.format(text,args));
 	}
 	
@@ -131,7 +124,7 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 * @param player the player
 	 * @param text the text
 	 */
-	public static void sendComments(Player player, String text) {
+	public void sendComments(Player player, String text) {
 		sendComments(player, text,false);
 	}
 
@@ -142,10 +135,10 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 * @param text the text
 	 * @param global the global
 	 */
-	public static void sendComments(Player player, String text, boolean global) {
+	public void sendComments(Player player, String text, boolean global) {
 		if (getComments()) {
-			if (!QDBukkitPlugin.lastMsg.equalsIgnoreCase(text)) {
-				QDBukkitPlugin.lastMsg = text + "";
+			if (!this.lastMsg.equalsIgnoreCase(text)) {
+				this.lastMsg = text + "";
 				if (global) {
 					getInstance().getServer().broadcastMessage(text);
 				} else {
@@ -160,7 +153,7 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 */
 	public void onDisable() {
 		PluginDescriptionFile pdfFile = getDescription();
-		log(ChatFormater.format("%s version disabled", pdfFile.getName(), pdfFile.getVersion()));
+		logger.log(ChatFormater.format("%s version disabled", pdfFile.getName(), pdfFile.getVersion()));
 	}
 
 	/* (non-Javadoc)
@@ -171,8 +164,8 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 		instance = this;
 		pm = getServer().getPluginManager();
 		pdfFile = getDescription();
-		log(ChatFormater.format("%s version %s : initialization", pdfFile.getName(), pdfFile.getVersion()));
-		ServerLogger.setPrefix(pdfFile.getName());
+		logger.setPrefix(pdfFile.getName());
+		logger.log("%s version %s : initialization", pdfFile.getName(), pdfFile.getVersion());
 
 		setupPermissions();
 		setupChat();
@@ -207,11 +200,11 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	}
 
 	/**
-	 * Gets the static database.
+	 * Gets the database.
 	 *
-	 * @return the static database
+	 * @return the database
 	 */
-	public static EbeanServer getStaticDatabase() {
+	public EbeanServer getStaticDatabase() {
 		return database.getDatabase();
 	}
 

@@ -12,17 +12,17 @@ import com.google.gson.GsonBuilder;
 public class ServerLogger {
 	
 	/** The logger. */
-	private static Logger logger = Logger.getLogger("Minecraft");
+	private Logger logger = Logger.getLogger("Minecraft");
 	
 	/** The prefix. */
-	private static String prefix = "plugin";
+	private String prefix = "plugin";
 
 	/**
 	 * Sets the prefix.
 	 *
 	 * @param prf the new prefix
 	 */
-	public static void setPrefix(String prf){
+	public void setPrefix(String prf){
 		prefix = prf;
 	}
 	
@@ -31,7 +31,7 @@ public class ServerLogger {
 	 *
 	 * @param str the str
 	 */
-	public static void log(String str) {
+	public void log(String str) {
 		logger.info("["+prefix+"] "+str);
 	}
 
@@ -41,7 +41,7 @@ public class ServerLogger {
 	 * @param str the str
 	 * @param args the args
 	 */
-	public static void log(String str,Object... args ) {
+	public void log(String str,Object... args) {
 		logger.info("["+prefix+"] "+ChatFormater.formatClean(str, args));
 	}
 	
@@ -50,7 +50,7 @@ public class ServerLogger {
 	 *
 	 * @param obj the obj
 	 */
-	public static void dump(Object obj){
+	public void dump(Object obj){
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		logger.info("["+prefix+"] "+obj.getClass()+"\n"+gson.toJson(obj));
 	}

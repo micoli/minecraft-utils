@@ -2,6 +2,7 @@ package org.micoli.minecraft.utils;
 
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
+import org.micoli.minecraft.bukkit.QDBukkitPlugin;
 
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -19,12 +20,12 @@ public class PluginEnvironment {
 	 * @param server the server
 	 * @return the world guard
 	 */
-	static public WorldGuardPlugin getWorldGuard(Server server) {
+	static public WorldGuardPlugin getWorldGuard(QDBukkitPlugin qdplugin ,Server server) {
 		Plugin plugin = server.getPluginManager().getPlugin("WorldGuard");
 
 		// WorldGuard may not be loaded
 		if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
-			ServerLogger.log("WorldGuard not found");
+			qdplugin.logger.log("WorldGuard not found");
 			return null; // Maybe you want throw an exception instead
 		}
 
@@ -37,7 +38,7 @@ public class PluginEnvironment {
 	 * @param server the server
 	 * @return the world edit
 	 */
-	static public WorldEditPlugin getWorldEdit(Server server) {
+	static public WorldEditPlugin getWorldEdit(QDBukkitPlugin qdplugin,Server server) {
 		Plugin plugin = server.getPluginManager().getPlugin("WorldEdit");
 		plugin.getDatabase();
 		if (plugin == null || !(plugin instanceof WorldEdit)) {
@@ -51,7 +52,7 @@ public class PluginEnvironment {
 		}
 		// WorldEdit may not be loaded
 		if (plugin == null || !(plugin instanceof WorldEditPlugin)) {
-			ServerLogger.log("WorldEdit not found");
+			qdplugin.logger.log("WorldEdit not found");
 			return null; // Maybe you want throw an exception instead
 		}
 

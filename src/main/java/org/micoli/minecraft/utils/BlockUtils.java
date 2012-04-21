@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.micoli.minecraft.bukkit.QDBukkitPlugin;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -22,7 +23,7 @@ public class BlockUtils {
 	 * Algorithm of the line available at : http://tech-algorithm.com/articles/drawing-line-using-bresenham-algorithm/
 	 * @param listBlock the list block
 	 */
-	public static void drawLineOnTop(Location location1, Location location2, Material material,List<Block> listBlock) {
+	public static void drawLineOnTop(QDBukkitPlugin qdplugin,Location location1, Location location2, Material material,List<Block> listBlock) {
 		//ServerLogger.log("draw line from %f,%f=>%f,%f %s", location1.getX(), location1.getZ(), location2.getX(), location2.getZ(), material.toString());
 		//sendComments(player,ChatFormater.format("draw line from %f,%f=>%f,%f %s", location1.getX(), location1.getZ(), location2.getX(), location2.getZ(), material.toString()));
 		int x = (int)location1.getX();
@@ -57,9 +58,9 @@ public class BlockUtils {
 		int numerator = longest >> 1;
 		for (int i = 0; i <= longest; i++) {
 			if(listBlock==null){
-				setMaterialOnTop(new Location(location1.getWorld(),x,(double)0,y), material);
+				setMaterialOnTop(qdplugin,new Location(location1.getWorld(),x,(double)0,y), material);
 			}else{
-				listBlock.add(setMaterialOnTop(new Location(location1.getWorld(),x,(double)0,y), material));
+				listBlock.add(setMaterialOnTop(qdplugin,new Location(location1.getWorld(),x,(double)0,y), material));
 			}
 			//ServerLogger.log("Point at %d,%d",x,y);
 			numerator += shortest;
@@ -81,10 +82,10 @@ public class BlockUtils {
 	 * @param material the material
 	 * @return the block
 	 */
-	public static Block setMaterialOnTop(Location location, Material material) {
+	public static Block setMaterialOnTop(QDBukkitPlugin qdplugin,Location location, Material material) {
 		Location dstLocation = getTopPositionAtPos(location);
 		location.getWorld().getBlockAt(dstLocation).setType(material);
-		ServerLogger.log("Point %s", dstLocation.toString());
+		qdplugin.logger.log("Point %s", dstLocation.toString());
 		return location.getWorld().getBlockAt(dstLocation);
 	}
 	
