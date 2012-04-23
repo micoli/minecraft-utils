@@ -115,7 +115,11 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 * @param args the args
 	 */
 	public void sendComments(Player player, String text,Object... args) {
-		sendComments(player, ChatFormater.format(text,args));
+		if (player==null){
+			sendComments(player, ChatFormater.format(text,args));
+		}else{
+			logger.log(text,args);
+		}
 	}
 	
 	/**
@@ -125,7 +129,11 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 * @param text the text
 	 */
 	public void sendComments(Player player, String text) {
-		sendComments(player, text,false);
+		if (player==null){
+			sendComments(player, text,false);
+		}else{
+			logger.log(text);
+		}
 	}
 
 	/**
