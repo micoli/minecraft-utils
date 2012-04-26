@@ -35,6 +35,11 @@ public class ServerLogger {
 		logger.info("["+prefix+"] "+str);
 	}
 
+	public void log(String[] str) {
+		for(String s:str){
+			logger.info("["+prefix+"] "+s);
+		}
+	}
 	/**
 	 * Log.
 	 *

@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.micoli.minecraft.bukkit.QDCommand.SenderType;
 import org.micoli.minecraft.utils.ChatFormater;
+import org.micoli.minecraft.utils.ExceptionUtils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -165,7 +166,7 @@ public class QDCommandManager implements CommandExecutor {
 			if (command.getName().equalsIgnoreCase(plugin.getCommandString())) {
 				if (args.length > 0) {
 					String subCommand = args[0].toLowerCase();
-					plugin.logger.log("Command %s", args[0]);
+					plugin.logger.log("Command=> %s", args[0]);
 					if(subCommand.equalsIgnoreCase("helplog")){
 						showHelp(senderType, sender,true);
 						return true;
@@ -186,10 +187,11 @@ public class QDCommandManager implements CommandExecutor {
 								commandUsageFeedBack(senderType, sender, currentCommand, e.getCause().getMessage());
 							}else{
 								commandFeedBack(senderType, sender, "{ChatColor.RED} %s", e.getCause().getMessage());
+								plugin.logger.log(ExceptionUtils.getStackTrace(e));
 							}
 						} catch (Exception e) {
 							commandFeedBack(senderType, sender, "{ChatColor.RED} %s", e.getMessage());
-							e.printStackTrace();
+							plugin.logger.log(ExceptionUtils.getStackTrace(e));
 							throw e;
 						}
 					} else {

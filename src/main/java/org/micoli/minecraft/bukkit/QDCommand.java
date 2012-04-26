@@ -5,65 +5,65 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface QDCommand.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface QDCommand {
-	
+
 	/**
 	 * The Enum SenderType.
 	 */
-	public enum SenderType { 
- /** The PLAYER. */
- PLAYER, 
- /** The CONSOLE. */
- CONSOLE, 
- /** The BOTH. */
- BOTH };
+	public enum SenderType {
+		/** The PLAYER. */
+		PLAYER,
+		/** The CONSOLE. */
+		CONSOLE,
+		/** The BOTH. */
+		BOTH
+	};
 
 	/**
 	 * Aliases.
-	 *
+	 * 
 	 * @return the string
 	 */
 	public String aliases();
-	
+
 	/**
 	 * Description.
-	 *
+	 * 
 	 * @return the string
 	 */
-	public String description() default  "";
-	
+	public String description() default "";
+
 	/**
 	 * Usage.
-	 *
+	 * 
 	 * @return the string
 	 */
-	public String usage() default  "";
-	
+	public String usage() default "";
+
 	/**
 	 * Help.
-	 *
+	 * 
 	 * @return the string
 	 */
 	public String help() default "";
-	
+
 	/**
 	 * Sender type.
-	 *
+	 * 
 	 * @return the sender type
 	 */
 	public SenderType senderType() default SenderType.PLAYER;
-	
+
 	/**
 	 * Permissions.
-	 *
+	 * 
 	 * @return the string[]
 	 */
-	public String[] permissions() ;
-	
+	public String[] permissions();
+
 }

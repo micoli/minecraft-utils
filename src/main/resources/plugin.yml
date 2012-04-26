@@ -1,0 +1,5 @@
+name: morgUtils
+main: org.micoli.minecraft.bukkit.QDBukkitPlugin
+version: 0.2
+description: micoli.org library
+depend: [Vault]

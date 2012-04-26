@@ -156,6 +156,25 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 		}
 	}
 
+	/**
+	 * Send comments.
+	 *
+	 * @param player the player
+	 * @param text the text
+	 * @param global the global
+	 */
+	public void sendComments(Player player, String[] texts, boolean global) {
+		if (getComments()) {
+			if (global) {
+				for(String s:texts){
+					getInstance().getServer().broadcastMessage(s);
+				}
+			} else {
+				player.sendMessage(texts);
+			}
+		}
+	}
+
 	/* (non-Javadoc)
 	 * @see org.bukkit.plugin.java.JavaPlugin#onDisable()
 	 */
