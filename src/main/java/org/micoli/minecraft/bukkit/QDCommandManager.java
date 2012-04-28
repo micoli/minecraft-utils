@@ -9,7 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.h2.util.StringUtils;
 import org.micoli.minecraft.bukkit.QDCommand.SenderType;
 import org.micoli.minecraft.utils.ChatFormater;
 import org.micoli.minecraft.utils.ExceptionUtils;
@@ -171,7 +170,7 @@ public class QDCommandManager implements CommandExecutor {
 					for(String st : args){
 						fullCommand = fullCommand +" "+ st;
 					}
-					plugin.logger.log("Command=> %s", fullCommand);
+					plugin.logger.log("Command [%s] %s", sender.getName() ,fullCommand);
 					if(subCommand.equalsIgnoreCase("helplog")){
 						showHelp(senderType, sender,true);
 						return true;
