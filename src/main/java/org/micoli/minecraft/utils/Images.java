@@ -2,6 +2,10 @@ package org.micoli.minecraft.utils;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -45,4 +49,14 @@ public class Images {
 			System.arraycopy(srcbuf, srcoffs, dstbuf, dstoffs, width);
 		}
 	}
+	
+	public static void saveBufferedImage(BufferedImage bufferedImage, String fileName,String type) {
+		File pngWriter = new File(fileName);
+		try {
+			ImageIO.write(bufferedImage, type, pngWriter);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
