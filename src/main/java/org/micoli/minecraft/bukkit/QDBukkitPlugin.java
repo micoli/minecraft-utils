@@ -43,19 +43,19 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	protected String lastMsg = "";
 	
 	/** The pdf file. */
-	public PluginDescriptionFile pdfFile;
+	protected PluginDescriptionFile pdfFile;
 	
 	/** The pm. */
-	public PluginManager pm;
+	private PluginManager pm;
 
 	/** The vault permission. */
-	public Permission vaultPermission = null;
+	private Permission vaultPermission = null;
 	
 	/** The vault economy. */
-	public Economy vaultEconomy = null;
+	private Economy vaultEconomy = null;
 	
 	/** The vault chat. */
-	public Chat vaultChat = null;
+	protected Chat vaultChat = null;
 	
 	/** The database. */
 	protected MyDatabase database;
@@ -179,7 +179,6 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 * @see org.bukkit.plugin.java.JavaPlugin#onDisable()
 	 */
 	public void onDisable() {
-		PluginDescriptionFile pdfFile = getDescription();
 		logger.log(ChatFormater.format("%s version disabled", pdfFile.getName(), pdfFile.getVersion()));
 	}
 
@@ -189,7 +188,7 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	@Override
 	public void onEnable() {
 		instance = this;
-		pm = getServer().getPluginManager();
+		setPm(getServer().getPluginManager());
 		pdfFile = getDescription();
 		logger.setPrefix(pdfFile.getName());
 		logger.log("%s version %s : initialization", pdfFile.getName(), pdfFile.getVersion());
@@ -271,9 +270,9 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	protected boolean setupPermissions() {
 		RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
 		if (permissionProvider != null) {
-			vaultPermission = permissionProvider.getProvider();
+			setVaultPermission(permissionProvider.getProvider());
 		}
-		return (vaultPermission != null);
+		return (getVaultPermission() != null);
 	}
 
 	/**
@@ -298,15 +297,57 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	protected boolean setupEconomy() {
 		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
 		if (economyProvider != null) {
-			vaultEconomy = economyProvider.getProvider();
+			setVaultEconomy(economyProvider.getProvider());
 		}
 
-		return (vaultEconomy != null);
+		return (getVaultEconomy() != null);
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent event) {
+	}
+
+	/**
+	 * @return the pm
+	 */
+	public PluginManager getPm() {
+		return pm;
+	}
+
+	/**
+	 * @param pm the pm to set
+	 */
+	public void setPm(PluginManager pm) {
+		this.pm = pm;
+	}
+
+	/**
+	 * @return the vaultEconomy
+	 */
+	public Economy getVaultEconomy() {
+		return vaultEconomy;
+	}
+
+	/**
+	 * @param vaultEconomy the vaultEconomy to set
+	 */
+	public void setVaultEconomy(Economy vaultEconomy) {
+		this.vaultEconomy = vaultEconomy;
+	}
+
+	/**
+	 * @return the vaultPermission
+	 */
+	public Permission getVaultPermission() {
+		return vaultPermission;
+	}
+
+	/**
+	 * @param vaultPermission the vaultPermission to set
+	 */
+	public void setVaultPermission(Permission vaultPermission) {
+		this.vaultPermission = vaultPermission;
 	}
 }

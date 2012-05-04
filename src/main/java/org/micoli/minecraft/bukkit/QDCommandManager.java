@@ -138,7 +138,7 @@ public class QDCommandManager implements CommandExecutor {
 			if (currentCommand.permissions().length > 0 && !((Player) sender).isOp()) {
 				for (String permission : currentCommand.permissions()) {
 					plugin.logger.log(permission);
-					if (!plugin.vaultPermission.has(((Player) sender), permission)) {
+					if (!plugin.getVaultPermission().has(((Player) sender), permission)) {
 						return "You need permissions " + permission;
 					}
 				}
