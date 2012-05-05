@@ -21,7 +21,6 @@ import org.micoli.minecraft.utils.ServerLogger;
 import com.avaje.ebean.EbeanServer;
 import com.lennardf1989.bukkitex.MyDatabase;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class QDBukkitPlugin.
  */
@@ -55,7 +54,7 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	private Economy vaultEconomy = null;
 	
 	/** The vault chat. */
-	protected Chat vaultChat = null;
+	private Chat vaultChat = null;
 	
 	/** The database. */
 	protected MyDatabase database;
@@ -240,8 +239,7 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 * @return the database orm classes
 	 */
 	protected java.util.List<Class<?>> getDatabaseORMClasses() {
-		List<Class<?>> list = new ArrayList<Class<?>>();
-		return list;
+		return new ArrayList<Class<?>>();
 	};
 
 	/**
@@ -350,4 +348,19 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	public void setVaultPermission(Permission vaultPermission) {
 		this.vaultPermission = vaultPermission;
 	}
+
+	/**
+	 * @return the vaultChat
+	 */
+	public Chat getVaultChat() {
+		return vaultChat;
+	}
+
+	/**
+	 * @param vaultChat the vaultChat to set
+	 */
+	public void setVaultChat(Chat vaultChat) {
+		this.vaultChat = vaultChat;
+	}
+
 }

@@ -26,33 +26,37 @@ public class BlockUtils {
 	public static void drawLineOnTop(QDBukkitPlugin qdplugin,Location location1, Location location2, Material material,List<Block> listBlock) {
 		//ServerLogger.log("draw line from %f,%f=>%f,%f %s", location1.getX(), location1.getZ(), location2.getX(), location2.getZ(), material.toString());
 		//sendComments(player,ChatFormater.format("draw line from %f,%f=>%f,%f %s", location1.getX(), location1.getZ(), location2.getX(), location2.getZ(), material.toString()));
-		int x = (int)location1.getX();
-		int y = (int)location1.getZ();
-		int w = (int)location2.getX() - x;
-		int h = (int)location2.getZ() - y;
+		int x = (int) location1.getX();
+		int y = (int) location1.getZ();
+		int w = (int) location2.getX() - x;
+		int h = (int) location2.getZ() - y;
 		int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
-		if (w < 0)
+		if (w < 0){
 			dx1 = -1;
-		else if (w > 0)
+		}else if (w > 0){
 			dx1 = 1;
-		if (h < 0)
+		}
+		if (h < 0){
 			dy1 = -1;
-		else if (h > 0)
+		}else if (h > 0){
 			dy1 = 1;
-		if (w < 0)
+		}
+		if (w < 0){
 			dx2 = -1;
-		else if (w > 0)
+		}else if (w > 0){
 			dx2 = 1;
+		}
 		int longest = Math.abs(w);
 		int shortest = Math.abs(h);
 		
 		if (!(longest > shortest)) {
 			longest = Math.abs(h);
 			shortest = Math.abs(w);
-			if (h < 0)
+			if (h < 0){
 				dy2 = -1;
-			else if (h > 0)
+			}else if (h > 0){
 				dy2 = 1;
+			}	
 			dx2 = 0;
 		}
 		int numerator = longest >> 1;
@@ -96,12 +100,13 @@ public class BlockUtils {
 	 * @return the top position at pos
 	 */
 	public static Location getTopPositionAtPos(Location location) {
-		World world = location.getWorld();
-		location.setY(world.getMaxHeight() - 1);
-		while (world.getBlockAt(location).getType().getId() == 0 && location.getY() > 0) {
-			location = location.subtract(0, 1, 0);
+		Location workLocation = location;
+		World world = workLocation.getWorld();
+		workLocation.setY(world.getMaxHeight() - 1);
+		while (world.getBlockAt(workLocation).getType().getId() == 0 && workLocation.getY() > 0) {
+			workLocation = workLocation.subtract(0, 1, 0);
 		}
-		return location.getY() > 0 ? location.add(0, 1, 0) : null;
+		return workLocation.getY() > 0 ? workLocation.add(0, 1, 0) : null;
 	}
 
 
