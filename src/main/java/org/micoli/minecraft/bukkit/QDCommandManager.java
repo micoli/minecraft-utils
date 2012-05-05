@@ -208,7 +208,7 @@ public class QDCommandManager implements CommandExecutor {
 			return false;
 		} catch (Exception ex) {
 			plugin.logger.log("Command failure: %s", ex.getMessage());
-			ex.printStackTrace();
+			plugin.logger.dumpStackTrace(ex);
 		}
 		return false;
 	}
