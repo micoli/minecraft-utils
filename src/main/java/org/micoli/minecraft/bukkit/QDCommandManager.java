@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.micoli.minecraft.bukkit.QDCommand.SenderType;
 import org.micoli.minecraft.utils.ChatFormater;
 import org.micoli.minecraft.utils.ExceptionUtils;
+import org.micoli.minecraft.utils.PluginEnvironment;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -138,7 +139,7 @@ public class QDCommandManager implements CommandExecutor {
 			if (currentCommand.permissions().length > 0 && !((Player) sender).isOp()) {
 				for (String permission : currentCommand.permissions()) {
 					plugin.logger.log(permission);
-					if (!plugin.getVaultPermission().has(((Player) sender), permission)) {
+					if (!PluginEnvironment.getVaultPermission(plugin).has(((Player) sender), permission)) {
 						return "You need permissions " + permission;
 					}
 				}

@@ -4,15 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.micoli.minecraft.utils.ChatFormater;
 import org.micoli.minecraft.utils.PluginEnvironment;
@@ -20,8 +15,6 @@ import org.micoli.minecraft.utils.ServerLogger;
 
 import com.avaje.ebean.EbeanServer;
 import com.lennardf1989.bukkitex.MyDatabase;
-import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 /**
  * The Class QDBukkitPlugin.
@@ -49,15 +42,6 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	/** The pm. */
 	private PluginManager pm;
 
-	/** The vault permission. */
-	private Permission vaultPermission = null;
-	
-	/** The vault economy. */
-	private Economy vaultEconomy = null;
-	
-	/** The vault chat. */
-	private Chat vaultChat = null;
-	
 	/** The database. */
 	protected MyDatabase database;
 	
@@ -194,9 +178,6 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 		logger.setPrefix(pdfFile.getName());
 		logger.log("%s version %s : initialization", pdfFile.getName(), pdfFile.getVersion());
 
-		setupPermissions();
-		setupChat();
-		setupEconomy();
 		loadConfiguration();
 		if(withDatabase){
 			initializeDatabase();
@@ -262,47 +243,6 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 		saveConfig();
 	}
 
-	/**
-	 * Setup permissions.
-	 *
-	 * @return true, if successful
-	 */
-	protected boolean setupPermissions() {
-		RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-		if (permissionProvider != null) {
-			setVaultPermission(permissionProvider.getProvider());
-		}
-		return (getVaultPermission() != null);
-	}
-
-	/**
-	 * Setup chat.
-	 *
-	 * @return true, if successful
-	 */
-	protected boolean setupChat() {
-		RegisteredServiceProvider<Chat> chatProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
-		if (chatProvider != null) {
-			vaultChat = chatProvider.getProvider();
-		}
-
-		return (vaultChat != null);
-	}
-
-	/**
-	 * Setup economy.
-	 *
-	 * @return true, if successful
-	 */
-	protected boolean setupEconomy() {
-		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-		if (economyProvider != null) {
-			setVaultEconomy(economyProvider.getProvider());
-		}
-
-		return (getVaultEconomy() != null);
-	}
-
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -321,47 +261,5 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 */
 	public void setPm(PluginManager pm) {
 		this.pm = pm;
-	}
-
-	/**
-	 * @return the vaultEconomy
-	 */
-	public Economy getVaultEconomy() {
-		return vaultEconomy;
-	}
-
-	/**
-	 * @param vaultEconomy the vaultEconomy to set
-	 */
-	public void setVaultEconomy(Economy vaultEconomy) {
-		this.vaultEconomy = vaultEconomy;
-	}
-
-	/**
-	 * @return the vaultPermission
-	 */
-	public Permission getVaultPermission() {
-		return vaultPermission;
-	}
-
-	/**
-	 * @param vaultPermission the vaultPermission to set
-	 */
-	public void setVaultPermission(Permission vaultPermission) {
-		this.vaultPermission = vaultPermission;
-	}
-
-	/**
-	 * @return the vaultChat
-	 */
-	public Chat getVaultChat() {
-		return vaultChat;
-	}
-
-	/**
-	 * @param vaultChat the vaultChat to set
-	 */
-	public void setVaultChat(Chat vaultChat) {
-		this.vaultChat = vaultChat;
 	}
 }

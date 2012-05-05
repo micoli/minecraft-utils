@@ -2,7 +2,12 @@ package org.micoli.minecraft.utils;
 
 import java.lang.reflect.Field;
 
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.dynmap.DynmapCommonAPI;
 import org.dynmap.DynmapCore;
 import org.dynmap.bukkit.DynmapPlugin;
@@ -31,6 +36,16 @@ public class PluginEnvironment {
 
 	/** The dynmap core plugin. */
 	private static DynmapCore dynmapCorePlugin=null;
+	
+	/** The vault permission. */
+	private static Permission vaultPermission = null;
+	
+	/** The vault economy. */
+	private static Economy vaultEconomy = null;
+	
+	/** The vault chat. */
+	private static Chat vaultChat = null;
+	
 
 	/**
 	 * Gets the world guard.
@@ -173,5 +188,98 @@ public class PluginEnvironment {
 	public static void setDynmapCorePlugin(DynmapCore dynmapCorePlugin) {
 		PluginEnvironment.dynmapCorePlugin = dynmapCorePlugin;
 	}
+	/**
+	 * @return the vaultEconomy
+	 */
+	public static Economy getVaultEconomy(QDBukkitPlugin qdplugin) {
+		if(PluginEnvironment.vaultEconomy!=null){
+			return PluginEnvironment.vaultEconomy;
+		}
+		setupEconomy(qdplugin);
+		return PluginEnvironment.vaultEconomy;
+	}
+
+	/**
+	 * @param vaultEconomy the vaultEconomy to set
+	 */
+	public static void setVaultEconomy(Economy vaultEconomy) {
+		PluginEnvironment.vaultEconomy = vaultEconomy;
+	}
+
+	/**
+	 * @return the vaultPermission
+	 */
+	public static Permission getVaultPermission(QDBukkitPlugin qdplugin) {
+		if(PluginEnvironment.vaultPermission!=null){
+			return PluginEnvironment.vaultPermission;
+		}
+		setupPermissions(qdplugin);
+		return PluginEnvironment.vaultPermission;
+	}
+
+	/**
+	 * @param vaultPermission the vaultPermission to set
+	 */
+	public static void setVaultPermission(Permission vaultPermission) {
+		PluginEnvironment.vaultPermission = vaultPermission;
+	}
+
+	/**
+	 * @return the vaultChat
+	 */
+	public static Chat getVaultChat(QDBukkitPlugin qdplugin) {
+		if(PluginEnvironment.vaultChat!=null){
+			return PluginEnvironment.vaultChat;
+		}
+		setupChat(qdplugin);
+		return PluginEnvironment.vaultChat;
+	}
+
+	/**
+	 * @param vaultChat the vaultChat to set
+	 */
+	public static void setVaultChat(Chat vaultChat) {
+		PluginEnvironment.vaultChat = vaultChat;
+	}
+	/**
+	 * Setup permissions.
+	 *
+	 * @return true, if successful
+	 */
+	protected static boolean setupPermissions(QDBukkitPlugin qdplugin) {
+		RegisteredServiceProvider<Permission> permissionProvider = qdplugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+		if (permissionProvider != null) {
+			setVaultPermission(permissionProvider.getProvider());
+		}
+		return (PluginEnvironment.vaultPermission != null);
+	}
+
+	/**
+	 * Setup economy.
+	 *
+	 * @return true, if successful
+	 */
+	protected static boolean setupEconomy(QDBukkitPlugin qdplugin) {
+		RegisteredServiceProvider<Economy> economyProvider = qdplugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+		if (economyProvider != null) {
+			setVaultEconomy(economyProvider.getProvider());
+		}
+	
+		return (PluginEnvironment.vaultEconomy != null);
+	}
+	/**
+	 * Setup chat.
+	 *
+	 * @return true, if successful
+	 */
+	protected static boolean setupChat(QDBukkitPlugin qdplugin) {
+		RegisteredServiceProvider<Chat> chatProvider =qdplugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
+		if (chatProvider != null) {
+			setVaultChat(chatProvider.getProvider());
+		}
+
+		return (PluginEnvironment.vaultChat != null);
+	}
+
 
 }
