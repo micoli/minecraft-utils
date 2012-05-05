@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.micoli.minecraft</groupId>
 	<artifactId>morg-utils</artifactId>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>0.5.1-SNAPSHOT</version>
 	<name>morg-utils</name>
 	<description>misc libraries for minecraft</description>
 	<properties>
@@ -66,6 +66,20 @@
 			<groupId>com.lennardf1989</groupId>
 			<artifactId>bukkitex</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency><dependency>
+			<groupId>org.dynmap</groupId>
+			<artifactId>DynmapCoreAPI</artifactId>
+			<version>[0.28,)</version>
+		</dependency>
+		<dependency>
+			<groupId>org.dynmap</groupId>
+			<artifactId>dynmap</artifactId>
+			<version>[0.28,)</version>
+		</dependency>
+		<dependency>
+			<groupId>org.dynmap</groupId>
+			<artifactId>DynmapCore</artifactId>
+			<version>[0.36,)</version>
 		</dependency>
 	</dependencies>
 	<build>

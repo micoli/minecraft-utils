@@ -3,7 +3,6 @@ package org.micoli.minecraft.bukkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
@@ -16,10 +15,13 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.micoli.minecraft.utils.ChatFormater;
+import org.micoli.minecraft.utils.PluginEnvironment;
 import org.micoli.minecraft.utils.ServerLogger;
 
 import com.avaje.ebean.EbeanServer;
 import com.lennardf1989.bukkitex.MyDatabase;
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 /**
  * The Class QDBukkitPlugin.
@@ -362,5 +364,4 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	public void setVaultChat(Chat vaultChat) {
 		this.vaultChat = vaultChat;
 	}
-
 }
