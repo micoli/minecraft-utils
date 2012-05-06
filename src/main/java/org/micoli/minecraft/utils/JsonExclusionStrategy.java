@@ -10,7 +10,7 @@ public class JsonExclusionStrategy implements ExclusionStrategy {
 
 	@Override
 	public boolean shouldSkipField(FieldAttributes f) {
-		return (f.getName().equalsIgnoreCase("_ebean_intercept"));
+		return (f.getName().equalsIgnoreCase("_ebean_intercept")||f.getName().equalsIgnoreCase("_EBEAN_MARKER"));
 	}
 
 }
