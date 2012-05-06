@@ -2,6 +2,7 @@ package org.micoli.minecraft.utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,7 +20,10 @@ public class Json {
 	 * @param object the object
 	 */
 	public static void exportObjectToJson(String filename,Object object){
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder()
+				.setExclusionStrategies (new JsonExclusionStrategy())
+				.excludeFieldsWithModifiers(Modifier.TRANSIENT)
+				.setPrettyPrinting().create();
 		FileWriter writer;
 		try {
 			writer = new FileWriter(filename);
@@ -37,7 +41,10 @@ public class Json {
 	 * @return the string
 	 */
 	public static String exportObjectToJson(Object object){
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder()
+				.setExclusionStrategies (new JsonExclusionStrategy())
+				.excludeFieldsWithModifiers(Modifier.TRANSIENT)
+				.setPrettyPrinting().create();
 		String writer;
 		try {
 			writer = gson.toJson(object);
