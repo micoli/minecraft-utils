@@ -114,7 +114,7 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 * @param text the text
 	 */
 	public void sendComments(Player player, String text) {
-		if (player==null){
+		if (player!=null){
 			sendComments(player, text,false);
 		}else{
 			logger.log(text);

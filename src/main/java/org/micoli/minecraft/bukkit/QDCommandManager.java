@@ -192,10 +192,12 @@ public class QDCommandManager implements CommandExecutor {
 								commandUsageFeedBack(senderType, sender, currentCommand, e.getCause().getMessage());
 							}else{
 								commandFeedBack(senderType, sender, "{ChatColor.RED} %s", e.getCause().getMessage());
-								plugin.logger.log(ExceptionUtils.getStackTrace(e));
+								commandFeedBack(SenderType.CONSOLE, null, "{ChatColor.RED} %s", e.getCause().getMessage());
+								//plugin.logger.log(ExceptionUtils.getStackTrace(e));
 							}
 						} catch (Exception e) {
 							commandFeedBack(senderType, sender, "{ChatColor.RED} %s", e.getMessage());
+							commandFeedBack(SenderType.CONSOLE, null, "{ChatColor.RED} %s", e.getCause().getMessage());
 							plugin.logger.log(ExceptionUtils.getStackTrace(e));
 							throw e;
 						}
