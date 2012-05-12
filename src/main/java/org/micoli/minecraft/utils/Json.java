@@ -3,11 +3,11 @@ package org.micoli.minecraft.utils;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Json.
  */
@@ -53,5 +53,10 @@ public class Json {
 			return "";
 		}
 		return writer;
+	}
+	
+	public static Object importFromJson(String json,Type type){
+		Gson gson = new Gson();
+		return gson.fromJson(json, type);
 	}
 }
