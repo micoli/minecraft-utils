@@ -4,11 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.micoli.minecraft.bukkit.QDCommand.SenderType;
 import org.micoli.minecraft.utils.ChatFormater;
 import org.micoli.minecraft.utils.PluginEnvironment;
 import org.micoli.minecraft.utils.ServerLogger;
@@ -16,6 +19,7 @@ import org.micoli.minecraft.utils.ServerLogger;
 import com.avaje.ebean.EbeanServer;
 import com.lennardf1989.bukkitex.MyDatabase;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class QDBukkitPlugin.
  */
@@ -145,7 +149,7 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	 * Send comments.
 	 *
 	 * @param player the player
-	 * @param text the text
+	 * @param texts the texts
 	 * @param global the global
 	 */
 	public void sendComments(Player player, String[] texts, boolean global) {
@@ -250,6 +254,8 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	}
 
 	/**
+	 * Gets the pm.
+	 *
 	 * @return the pm
 	 */
 	public PluginManager getPm() {
@@ -257,9 +263,34 @@ public class QDBukkitPlugin extends JavaPlugin implements ActionListener {
 	}
 
 	/**
+	 * Sets the pm.
+	 *
 	 * @param pm the pm to set
 	 */
 	public void setPm(PluginManager pm) {
 		this.pm = pm;
+	}
+	
+	/**
+	 * @return the executor
+	 */
+	public final QDCommandManager getExecutor() {
+		return executor;
+	}
+
+	/**
+	 * @param executor the executor to set
+	 */
+	public final void setExecutor(QDCommandManager executor) {
+		this.executor = executor;
+	}
+
+	@QDCommand(aliases = "dumpPermissions", permissions = { "qdbukkitplugin.dumppermissions" }, usage = "", description = "list all permissions for commands",senderType=SenderType.BOTH)
+	public void cmdDumpPermissions(CommandSender sender, Command command, String label, String[] args) throws Exception {
+		if(getExecutor()==null){
+			sender.sendMessage("no executor defined for this plugin");
+			return;
+		}
+		executor.dumpPermissions(sender);
 	}
 }

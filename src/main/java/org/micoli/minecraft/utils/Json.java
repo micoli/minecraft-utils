@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Json.
  */
@@ -55,6 +56,13 @@ public class Json {
 		return writer;
 	}
 	
+	/**
+	 * Import from json.
+	 *
+	 * @param json the json
+	 * @param type the type
+	 * @return the object
+	 */
 	public static Object importFromJson(String json,Type type){
 		Gson gson = new Gson();
 		return gson.fromJson(json, type);

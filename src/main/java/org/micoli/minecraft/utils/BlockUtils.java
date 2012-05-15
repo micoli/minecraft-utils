@@ -17,6 +17,7 @@ public class BlockUtils {
 	/**
 	 * Draw line on top of blocks.
 	 *
+	 * @param qdplugin the qdplugin
 	 * @param location1 the location1
 	 * @param location2 the location2
 	 * @param material the material
@@ -82,6 +83,7 @@ public class BlockUtils {
 	/**
 	 * Sets the material on top.
 	 *
+	 * @param qdplugin the qdplugin
 	 * @param location the location
 	 * @param material the material
 	 * @return the block

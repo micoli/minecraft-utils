@@ -40,6 +40,11 @@ public class ServerLogger {
 		logger.info("[" + prefix + "] " + str);
 	}
 
+	/**
+	 * Log.
+	 *
+	 * @param str the str
+	 */
 	public void log(String[] str) {
 		for (String s : str) {
 			logger.info("[" + prefix + "] " + s);
@@ -69,6 +74,11 @@ public class ServerLogger {
 		logger.info("[" + prefix + "] " + obj.getClass() + "\n" + gson.toJson(obj));
 	}
 
+	/**
+	 * Dump stack trace.
+	 *
+	 * @param e the e
+	 */
 	public void dumpStackTrace(Exception e) {
 		final Writer result = new StringWriter();
 		final PrintWriter printWriter = new PrintWriter(result);

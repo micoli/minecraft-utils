@@ -3,7 +3,9 @@ package org.micoli.minecraft.bukkit;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,8 +15,8 @@ import org.micoli.minecraft.bukkit.QDCommand.SenderType;
 import org.micoli.minecraft.utils.ChatFormater;
 import org.micoli.minecraft.utils.ExceptionUtils;
 import org.micoli.minecraft.utils.PluginEnvironment;
+import org.micoli.minecraft.utils.StringUtils;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class QDCommandManager.
  */
@@ -28,6 +30,8 @@ public class QDCommandManager implements CommandExecutor {
 	
 	/** The list command. */
 	private HashMap<String, QDCommand> listCommand = new HashMap<String, QDCommand>();
+	
+	private Set<String> permissions = new HashSet<String>();
 
 	/**
 	 * Instantiates a new qD command manager.
@@ -38,22 +42,28 @@ public class QDCommandManager implements CommandExecutor {
 	@SuppressWarnings("rawtypes")
 	public QDCommandManager(QDBukkitPlugin plugin, Class[] classes) {
 		this.plugin = plugin;
+		this.plugin.setExecutor(this);
 		for (Class classe : classes) {
 			for (Method method : classe.getMethods()) {
 				if (method.isAnnotationPresent(QDCommand.class)) {
 					QDCommand annotation = method.getAnnotation(QDCommand.class);
 					listAliases.put(annotation.aliases().toLowerCase(), method);
 					listCommand.put(annotation.aliases().toLowerCase(), annotation);
-					// ServerLogger.log("Method : " + method.getName());
-					// ServerLogger.log("Aliases-> : " + annotation.aliases());
-					// ServerLogger.log("Help-> : " + annotation.help());
-					// ServerLogger.log("Description-> : " +
-					// annotation.description());
+					for(int i=0;i<annotation.permissions().length;i++){
+						permissions.add(annotation.permissions()[i]);
+					}
+					StringBuffer buff = new StringBuffer();
+					buff.append(String.format("Method : %s", method.getName()));
+					buff.append(String.format(", Aliases : %s", annotation.aliases()));
+					buff.append(String.format(", Help : %s", annotation.help()));
+					buff.append(String.format(", Description : %s",	annotation.description()));
+					buff.append(String.format(", Permissions : %s",	StringUtils.join(annotation.permissions())));
+					plugin.logger.log(buff.toString());
+					//Permission permission = PluginEnvironment.getVaultPermission(plugin);
 				}
 			}
 		}
 		plugin.getCommand(plugin.getCommandString()).setExecutor(this);
-		// ServerLogger.log("----------------------------");
 	}
 	
 	/**
@@ -61,7 +71,7 @@ public class QDCommandManager implements CommandExecutor {
 	 *
 	 * @param senderType the sender type
 	 * @param sender the sender
-	 * @param toLog 
+	 * @param toLog the to log
 	 * @return true, if successful
 	 */
 	protected boolean showHelp(SenderType senderType, CommandSender sender, boolean toLog){
@@ -109,12 +119,7 @@ public class QDCommandManager implements CommandExecutor {
 	 * @param args the args
 	 */
 	public void commandFeedBack(SenderType senderType, CommandSender sender, String str, Object... args) {
-		if (senderType == SenderType.CONSOLE) {
-			plugin.logger.log(str, args);
-		}
-		if (senderType == SenderType.PLAYER) {
-			((Player) sender).sendMessage(ChatFormater.format(str, args));
-		}
+		sender.sendMessage(ChatFormater.format(str, args));
 	}
 	
 	
@@ -226,7 +231,16 @@ public class QDCommandManager implements CommandExecutor {
 	 * @return true, if successful
 	 */
 	private boolean onCommandWithoutAnnotation(CommandSender sender, Command command, String label, String[] args) {
-		((Player) sender).sendMessage(ChatFormater.format("{ChatColor.RED} command unknown"));
+		sender.sendMessage(ChatFormater.format("{ChatColor.RED} command unknown"));
 		return false;
+	}
+
+	public void dumpPermissions(CommandSender sender) {
+		
+		sender.sendMessage("permissions dumped to log");
+		for(String permission:permissions){
+			sender.sendMessage("  - "+permission);
+		}
+		sender.sendMessage("permissions dumped to log");
 	}
 }

@@ -7,12 +7,18 @@ import java.io.InputStream;
 
 import org.micoli.minecraft.bukkit.QDBukkitPlugin;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FileUtils.
+ */
 public class FileUtils {
+	
 	/**
 	 * Copy a file from the plugin to the data folder.
-	 * 
-	 * @param fileName
-	 *            the file name
+	 *
+	 * @param plugin the plugin
+	 * @param fileName the file name
+	 * @param force the force
 	 */
 	public static void initializeFileFromRessource(QDBukkitPlugin plugin,String fileName,boolean force) {
 		File resourceFile = new File(plugin.getDataFolder(), fileName);

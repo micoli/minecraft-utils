@@ -43,6 +43,7 @@ public class QDOrientation {
 	 */
 	public static class MultipleOrientations{
 		
+		/** The angle. */
 		private int angle=0;
 		
 		/** The cardinal dual orientation. */
@@ -56,6 +57,7 @@ public class QDOrientation {
 		 *
 		 * @param cardinalDualorientation the cardinal dualorientation
 		 * @param cardinalOrientation the cardinal orientation
+		 * @param angle the angle
 		 */
 		public MultipleOrientations(CardinalDualOrientation cardinalDualorientation,CardinalOrientation cardinalOrientation,int angle){
 			this.cardinalDualOrientation=cardinalDualorientation;
@@ -73,6 +75,8 @@ public class QDOrientation {
 		}
 		
 		/**
+		 * Sets the cardinal dual orientation.
+		 *
 		 * @param cardinalDualOrientation the cardinalDualOrientation to set
 		 */
 		public final void setCardinalDualOrientation(CardinalDualOrientation cardinalDualOrientation) {
@@ -98,6 +102,8 @@ public class QDOrientation {
 		}
 
 		/**
+		 * Gets the angle.
+		 *
 		 * @return the angle
 		 */
 		public final int getAngle() {
@@ -105,6 +111,8 @@ public class QDOrientation {
 		}
 
 		/**
+		 * Sets the angle.
+		 *
 		 * @param angle the angle to set
 		 */
 		public final void setAngle(int angle) {

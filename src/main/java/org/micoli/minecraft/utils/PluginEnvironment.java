@@ -17,6 +17,7 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class PluginEnvironment.
  */
@@ -67,7 +68,10 @@ public class PluginEnvironment {
 		setWorldGuardPlugin ((WorldGuardPlugin) plugin);
 		return worldGuardPlugin;
 	}
+	
 	/**
+	 * Sets the world guard plugin.
+	 *
 	 * @param worldGuardPlugin the worldGuardPlugin to set
 	 */
 	public static void setWorldGuardPlugin(WorldGuardPlugin worldGuardPlugin) {
@@ -105,6 +109,8 @@ public class PluginEnvironment {
 	}
 	
 	/**
+	 * Sets the world edit plugin.
+	 *
 	 * @param worldEditPlugin the worldEditPlugin to set
 	 */
 	public static void setWorldEditPlugin(WorldEditPlugin worldEditPlugin) {
@@ -126,6 +132,8 @@ public class PluginEnvironment {
 	}
 	
 	/**
+	 * Sets the dynmap common api plugin.
+	 *
 	 * @param dynmapCommonAPIPlugin the dynmapCommonAPIPlugin to set
 	 */
 	public static void setDynmapCommonAPIPlugin(DynmapCommonAPI dynmapCommonAPIPlugin) {
@@ -144,7 +152,10 @@ public class PluginEnvironment {
 		setDynmapPlugin( (DynmapPlugin) qdplugin.getServer().getPluginManager().getPlugin("dynmap"));
 		return dynmapPlugin;
 	}
+	
 	/**
+	 * Sets the dynmap plugin.
+	 *
 	 * @param dynmapPlugin the dynmapPlugin to set
 	 */
 	public static void setDynmapPlugin(DynmapPlugin dynmapPlugin) {
@@ -183,12 +194,18 @@ public class PluginEnvironment {
 	}
 	
 	/**
+	 * Sets the dynmap core plugin.
+	 *
 	 * @param dynmapCorePlugin the dynmapCorePlugin to set
 	 */
 	public static void setDynmapCorePlugin(DynmapCore dynmapCorePlugin) {
 		PluginEnvironment.dynmapCorePlugin = dynmapCorePlugin;
 	}
+	
 	/**
+	 * Gets the vault economy.
+	 *
+	 * @param qdplugin the qdplugin
 	 * @return the vaultEconomy
 	 */
 	public static Economy getVaultEconomy(QDBukkitPlugin qdplugin) {
@@ -200,6 +217,8 @@ public class PluginEnvironment {
 	}
 
 	/**
+	 * Sets the vault economy.
+	 *
 	 * @param vaultEconomy the vaultEconomy to set
 	 */
 	public static void setVaultEconomy(Economy vaultEconomy) {
@@ -207,6 +226,9 @@ public class PluginEnvironment {
 	}
 
 	/**
+	 * Gets the vault permission.
+	 *
+	 * @param qdplugin the qdplugin
 	 * @return the vaultPermission
 	 */
 	public static Permission getVaultPermission(QDBukkitPlugin qdplugin) {
@@ -218,6 +240,8 @@ public class PluginEnvironment {
 	}
 
 	/**
+	 * Sets the vault permission.
+	 *
 	 * @param vaultPermission the vaultPermission to set
 	 */
 	public static void setVaultPermission(Permission vaultPermission) {
@@ -225,6 +249,9 @@ public class PluginEnvironment {
 	}
 
 	/**
+	 * Gets the vault chat.
+	 *
+	 * @param qdplugin the qdplugin
 	 * @return the vaultChat
 	 */
 	public static Chat getVaultChat(QDBukkitPlugin qdplugin) {
@@ -236,14 +263,18 @@ public class PluginEnvironment {
 	}
 
 	/**
+	 * Sets the vault chat.
+	 *
 	 * @param vaultChat the vaultChat to set
 	 */
 	public static void setVaultChat(Chat vaultChat) {
 		PluginEnvironment.vaultChat = vaultChat;
 	}
+	
 	/**
 	 * Setup permissions.
 	 *
+	 * @param qdplugin the qdplugin
 	 * @return true, if successful
 	 */
 	protected static boolean setupPermissions(QDBukkitPlugin qdplugin) {
@@ -257,6 +288,7 @@ public class PluginEnvironment {
 	/**
 	 * Setup economy.
 	 *
+	 * @param qdplugin the qdplugin
 	 * @return true, if successful
 	 */
 	protected static boolean setupEconomy(QDBukkitPlugin qdplugin) {
@@ -267,9 +299,11 @@ public class PluginEnvironment {
 	
 		return (PluginEnvironment.vaultEconomy != null);
 	}
+	
 	/**
 	 * Setup chat.
 	 *
+	 * @param qdplugin the qdplugin
 	 * @return true, if successful
 	 */
 	protected static boolean setupChat(QDBukkitPlugin qdplugin) {

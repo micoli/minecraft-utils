@@ -2,6 +2,7 @@ package org.micoli.minecraft.entities;
 
 import org.bukkit.Location;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class QDWorldCoord.
  */
