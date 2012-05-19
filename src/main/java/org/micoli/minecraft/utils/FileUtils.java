@@ -22,7 +22,7 @@ public class FileUtils {
 	 */
 	public static void initializeFileFromRessource(QDBukkitPlugin plugin,String fileName,boolean force) {
 		File resourceFile = new File(plugin.getDataFolder(), fileName);
-		if (resourceFile.exists() || force) {
+		if (!resourceFile.exists() || force) {
 			try {
 				InputStream isr = plugin.getClass().getClassLoader().getResourceAsStream(fileName);
 				File fileOut = new File(plugin.getDataFolder().getAbsolutePath() + "/" + fileName);

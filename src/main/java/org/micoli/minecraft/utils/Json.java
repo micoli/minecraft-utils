@@ -45,7 +45,9 @@ public class Json {
 		Gson gson = new GsonBuilder()
 				.setExclusionStrategies (new JsonExclusionStrategy())
 				.excludeFieldsWithModifiers(Modifier.TRANSIENT)
-				.setPrettyPrinting().create();
+				.setPrettyPrinting()
+				//.setDateFormat("yyyy-MM-dd HH:mm:ss")
+				.create();
 		String writer;
 		try {
 			writer = gson.toJson(object);

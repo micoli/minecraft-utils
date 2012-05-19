@@ -50,7 +50,9 @@ public class QDCommandManager implements CommandExecutor {
 					listAliases.put(annotation.aliases().toLowerCase(), method);
 					listCommand.put(annotation.aliases().toLowerCase(), annotation);
 					for(int i=0;i<annotation.permissions().length;i++){
-						permissions.add(annotation.permissions()[i]);
+						if(annotation.permissions()[i]!=null){
+							permissions.add(annotation.permissions()[i]);
+						}
 					}
 					StringBuffer buff = new StringBuffer();
 					buff.append(String.format("Method : %s", method.getName()));
