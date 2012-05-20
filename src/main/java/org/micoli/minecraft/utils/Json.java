@@ -1,5 +1,8 @@
 package org.micoli.minecraft.utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
@@ -7,6 +10,8 @@ import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -68,5 +73,10 @@ public class Json {
 	public static Object importFromJson(String json,Type type){
 		Gson gson = new Gson();
 		return gson.fromJson(json, type);
+	}
+
+	public static Object importFromJson(File jsonFile,Type type) throws JsonIOException, JsonSyntaxException, FileNotFoundException{
+		Gson gson = new Gson();
+		return gson.fromJson(new FileReader(jsonFile.getAbsoluteFile()), type);
 	}
 }
