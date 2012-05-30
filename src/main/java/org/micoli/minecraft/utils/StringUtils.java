@@ -49,4 +49,30 @@ public class StringUtils {
 		}
 		return buffer.toString();
 	}
+	
+	public static boolean isInt(String str){
+		if(str == null){
+			return false;
+		}
+		try {
+			int x = Integer.parseInt(str);
+			return true;
+		}
+		catch(Exception nFE) {
+			return false;
+		}	
+	}
+
+	public static boolean isDouble(String str){
+		if(str == null){
+			return false;
+		}
+		try {
+			double x = Double.parseDouble(str);
+			return true;
+		}
+		catch(Exception nFE) {
+			return false;
+		}	
+	}
 }
