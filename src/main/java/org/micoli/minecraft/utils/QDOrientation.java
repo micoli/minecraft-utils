@@ -41,6 +41,8 @@ public class QDOrientation {
 	/**
 	 * The Class MultipleOrientation.
 	 */
+	public static class MultipleOrientationsrere{
+	}
 	public static class MultipleOrientations{
 		
 		/** The angle. */
@@ -129,18 +131,28 @@ public class QDOrientation {
 	public static MultipleOrientations getOrientations(Player player){
 		int iOrientation = (int) (player.getLocation().getYaw() + 180) % 360;
 		MultipleOrientations orientations = new MultipleOrientations(CardinalDualOrientation.NS,CardinalOrientation.N,iOrientation);
-		if (iOrientation < 45 + 0 * 90) {
-			orientations.setCardinalOrientation(CardinalOrientation.N);
-			orientations.setCardinalDualOrientation( CardinalDualOrientation.EW);
-		} else if (iOrientation < 45 + 1 * 90) {
-			orientations.setCardinalOrientation( CardinalOrientation.E);
-			orientations.setCardinalDualOrientation( CardinalDualOrientation.NS);
-		} else if (iOrientation < 45 + 2 * 90) {
-			orientations.setCardinalOrientation( CardinalOrientation.S);
-			orientations.setCardinalDualOrientation( CardinalDualOrientation.EW);
-		} else if (iOrientation < 45 + 3 * 90) {
-			orientations.setCardinalOrientation( CardinalOrientation.W);
-			orientations.setCardinalDualOrientation( CardinalDualOrientation.NS);
+		try{
+			if (iOrientation < 45 + 0 * 90) {
+				//player.sendMessage(String.format("1 %d",iOrientation));
+				orientations.setCardinalOrientation(CardinalOrientation.N);
+				orientations.setCardinalDualOrientation( CardinalDualOrientation.EW);
+			} else if (iOrientation < 45 + 1 * 90) {
+				//player.sendMessage(String.format("2 %d",iOrientation));
+				orientations.setCardinalOrientation( CardinalOrientation.E);
+				orientations.setCardinalDualOrientation( CardinalDualOrientation.NS);
+			} else if (iOrientation < 45 + 2 * 90) {
+				//player.sendMessage(String.format("3 %d",iOrientation));
+				orientations.setCardinalOrientation( CardinalOrientation.S);
+				orientations.setCardinalDualOrientation( CardinalDualOrientation.EW);
+			} else if (iOrientation < 45 + 3 * 90) {
+				//player.sendMessage(String.format("4 %d",iOrientation));
+				orientations.setCardinalOrientation( CardinalOrientation.W);
+				orientations.setCardinalDualOrientation( CardinalDualOrientation.NS);
+			}
+			//player.sendMessage(String.format("4 %s",orientations.getCardinalDualOrientation().toString()));
+			
+		}catch (Exception e){
+			e.printStackTrace();
 		}
 		return orientations;
 		//logger.log("Facing %s,%s", facing, orientation.toString());

@@ -121,7 +121,11 @@ public class QDCommandManager implements CommandExecutor {
 	 * @param args the args
 	 */
 	public void commandFeedBack(SenderType senderType, CommandSender sender, String str, Object... args) {
-		sender.sendMessage(ChatFormater.format(str, args));
+		try{
+			sender.sendMessage(ChatFormater.format(str, args));
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -195,13 +199,13 @@ public class QDCommandManager implements CommandExecutor {
 							currentMethod.invoke(plugin, sender, command, label, args);
 							return true;
 						} catch (InvocationTargetException e) {
-							if(e.getCause() instanceof QDCommandUsageException){
+							//if(e.getCause() instanceof QDCommandUsageException){
 								commandUsageFeedBack(senderType, sender, currentCommand, e.getCause().getMessage());
-							}else{
-								commandFeedBack(senderType, sender, "{ChatColor.RED} %s", e.getCause().getMessage());
-								commandFeedBack(SenderType.CONSOLE, null, "{ChatColor.RED} %s", e.getCause().getMessage());
+							//}else{
+							//	commandFeedBack(senderType, sender, "{ChatColor.RED} %s", e.getCause().getMessage());
+							//	commandFeedBack(SenderType.CONSOLE, null, "{ChatColor.RED} %s", e.getCause().getMessage());
 								//plugin.logger.log(ExceptionUtils.getStackTrace(e));
-							}
+							//}
 						} catch (Exception e) {
 							commandFeedBack(senderType, sender, "{ChatColor.RED} %s", e.getMessage());
 							commandFeedBack(SenderType.CONSOLE, null, "{ChatColor.RED} %s", e.getCause().getMessage());
